@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<title>Canvas Básico</title>
+<style>
+#miCanvas{
+	border: dotted 4px #1f3654;
+	background: #228a5f;
+}
+</style>
+<script>
+/* Varibles Globales */
+var ctx;
+var canvas;
+var radio = 18;
+var bolax = 50;
+var bolay = 100;
+var dx = 4;
+var dy = 4;
+var ancho, largo;
+var limiteDerecha, limiteIzquierda, limiteAbajo, limiteArriba; 
+
+
+window.onload = function(){
+		canvas = document.getElementById("miCanvas");
+		if(canvas && canvas.getContext){
+			ctx = canvas.getContext("2d");
+			if(ctx){
+				ancho = canvas.width;
+				alto = canvas.height;
+				limiteDerecha = ancho - radio;
+				limiteIzquierda = radio;
+				// up
+				limiteArriba = radio;
+				limiteAbajo = alto - radio;
+				
+				ctx.lineWidth = radio;
+				ctx.fillStyle = "#9a300a";
+				mueve();
+				setInterval(mueve,60);
+			}else{
+				alert("Error al crear tu contexto");
+			}
+		}
+	}
+function mueve(){
+	console.log("Hola Mundo");
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+	verifica(); 
+	ctx.beginPath();
+	ctx.arc(bolax,bolay,radio,0,2*Math.PI,true);
+	ctx.fill();
+}
+function verifica(){
+	var nbolax = bolax + dx;
+	var nbolay = bolay + dy;
+	
+	if(nbolax > limiteDerecha){
+		dx *= -1;
+		nbolax = limiteDerecha;
+	}
+	if(nbolax < limiteIzquierda){
+		dx *= -1;
+		nbolax = limiteIzquierda;
+	}
+	if(nbolay > limiteAbajo){
+		dy *= -1;
+		nbolay = limiteAbajo;
+	}
+	if(nbolay < limiteArriba){
+		dy *= -1;
+		nbolay = limiteArriba;
+	}
+	bolax = nbolax;
+	bolay = nbolay;
+}
+</script>
+<head>
+</head>
+<body>
+<canvas id="miCanvas" width="500px" height="300px">
+Tu navegador no soporta CANVAS
+</canvas>
+</body>
+</html>
